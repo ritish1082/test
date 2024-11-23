@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { unenrollCourse, enrollCourse } from "./EnrollmentReducer";
+import { unenrollCourse, enrollCourse } from "./enrollmentReducer";
 import axios from "axios";
 
 export default function Dashboard({
@@ -58,9 +58,7 @@ export default function Dashboard({
       if (displayCourses) {
         setCoursesMap(allCourses);
       } else {
-        const enrolledCourses = allCourses.filter((course: any) => 
-          isEnrolled(course._id)
-        );
+        const enrolledCourses = allCourses.filter((course: any) => isEnrolled(course._id));
         setCoursesMap(enrolledCourses);
       }
     } else {
@@ -79,9 +77,9 @@ export default function Dashboard({
     try {
       const enrollment = {
         user: currentUser._id,
-        course: courseId
+        course: courseId,
       };
-      
+
       const response = await axios.post(`${ENROLLMENTS_API}/create`, enrollment);
       dispatch(enrollCourse(response.data));
     } catch (error) {
@@ -100,7 +98,7 @@ export default function Dashboard({
       const enrollment = enrollments.find(
         (e: any) => e.course === courseId && e.user === currentUser._id
       );
-      
+
       if (!enrollment) {
         console.error("Enrollment not found");
         return;
@@ -200,11 +198,7 @@ export default function Dashboard({
       )}
       {isStudent && (
         <div className="d-flex justify-content-end w-100">
-          <button 
-            onClick={handleEnrollments} 
-            className="btn btn-primary"
-            disabled={loading}
-          >
+          <button onClick={handleEnrollments} className="btn btn-primary" disabled={loading}>
             {displayCourses ? "Show My Courses" : "Show All Courses"}
           </button>
         </div>
@@ -224,13 +218,17 @@ export default function Dashboard({
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
           {coursesMap.map((courseItem: any) => (
-            <div key={courseItem._id} className="wd-dashboard-course col" style={{ width: "300px" }}>
+            <div
+              key={courseItem._id}
+              className="wd-dashboard-course col"
+              style={{ width: "300px" }}
+            >
               <div className="card rounded-3 overflow-hidden">
                 <Link
                   to={`/Kanbas/Courses/${courseItem._id}/Home`}
                   className="wd-dashboard-course-link text-decoration-none text-dark"
                 >
-                  <img src="/images/reactjs.jpg" width="100%" height={160} alt="course" />
+                  <img src="/images/reactjs.png" width="100%" height={160} alt="course" />
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">{courseItem.name}</h5>
                     <p
