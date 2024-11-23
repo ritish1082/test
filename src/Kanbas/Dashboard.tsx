@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { unenrollCourse, enrollCourse } from "./enrollmentReducer";
+import { unenrollCourse, enrollCourse } from "./EnrollmentReducer";
 import axios from "axios";
 
 export default function Dashboard({
